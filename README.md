@@ -1,54 +1,66 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Descrição do Projeto: Lista de Tarefas Kanban
 
-Currently, two official plugins are available:
+## Tecnologias Utilizadas
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Frontend:**
+  - React
+  - react-router-dom
+  - Hooks: `useState`, `useEffect`, `useContext`
+  - ContextAPI
+  - Typescript
+  - Axios
+  - Radix UI (para interface)
+  - Arquivo dedicado para funções da API: `api.ts` com CRUD completo
+  - Variáveis de ambiente: `.env`
 
-## Expanding the ESLint configuration
+- **Backend:**
+  - Node.js
+  - SQL
+  - ORM Prisma
+  - Neon (PostgreSQL serverless)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Ferramentas e Plataformas:**
+  - Insomnia (para testar a API)
+  - Vercel (para hospedagem do frontend)
+  - Neon (para banco de dados serverless)
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## Descrição do Projeto
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Este projeto consiste em uma **lista de tarefas no estilo Kanban**. O objetivo é promover a **rapidez de execução**, oferecendo um sistema simples e eficiente para gerenciar as tarefas. O projeto é composto por um **frontend em React**, utilizando o React Router para navegação e ContextAPI para gerenciar o estado global das tarefas.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+A comunicação com a API é feita através de funções CRUD completas que estão localizadas no arquivo `api.ts`, permitindo a criação, leitura, atualização e exclusão de tarefas. O backend é implementado utilizando **Node.js** e o ORM **Prisma** para a manipulação do banco de dados **PostgreSQL serverless**, hospedado na **Neon**.
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+A aplicação está hospedada na **Vercel** e utiliza **variáveis de ambiente** definidas no arquivo `.env` para facilitar a configuração de diferentes ambientes (desenvolvimento e produção).
+
+A interface foi criada com o auxílio de **Radix UI**, proporcionando uma experiência de usuário moderna e acessível.
+
+## Funcionalidades
+
+- **CRUD Completo:** Criação, leitura, atualização e exclusão de tarefas.
+- **Kanban:** Organize as tarefas em três estados: "A Fazer", "Fazendo" e "Concluído".
+- **Rápida Execução:** A aplicação foca em uma experiência simples e direta para gerenciar as tarefas de forma eficiente.
+
+## Como Rodar o Projeto
+
+1. Clone o repositório:
+   ```bash
+   git clone <url-do-repositorio>
+   ```
+
+2. Instale as dependências:
+   ```bash
+   npm install
+   ```
+
+3. Inicie o projeto:
+   ```bash
+   npm start
+   ```
+
+4. Para testar a API, utilize o **Insomnia** com as rotas configuradas para fazer as requisições.
+
+## Deploy
+
+- O frontend está hospedado na **Vercel**.
+- O banco de dados está na **Neon** com **PostgreSQL serverless**.
