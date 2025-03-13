@@ -10,12 +10,12 @@ const TaskBoard: React.FC = () => {
       <Grid columns="3" gap="4" minWidth="60rem">
         <Flex direction="column" gap="4">
           <Badge size="3" color="blue" variant="soft">
-            To do ({task.filter(t => t.status === 'todo').length})
+            To do ({task.filter(t => t.status === 'Todo').length})
           </Badge>
           {task
-            .filter(t => t.status === 'todo')
+            .filter(t => t.status === 'Todo')
             .map(tasks =>
-              tasks.status === 'todo' ? (
+              tasks.status === 'Todo' ? (
                 <TaskCard tasks={tasks} key={tasks.id} />
               ) : (
                 ''
@@ -25,12 +25,12 @@ const TaskBoard: React.FC = () => {
 
         <Flex direction="column" gap="4">
           <Badge size="3" color="yellow" variant="soft">
-            Work in Progress ({task.filter(t => t.status === 'doing').length})
+            Work in Progress ({task.filter(t => t.status === 'Doing').length})
           </Badge>
           {task
-            .filter(t => t.status === 'doing')
+            .filter(t => t.status === 'Doing')
             .map(tasks =>
-              tasks.status === 'doing' ? (
+              tasks.status === 'Doing' ? (
                 <TaskCard tasks={tasks} key={tasks.id} />
               ) : (
                 ''
@@ -39,12 +39,12 @@ const TaskBoard: React.FC = () => {
         </Flex>
         <Flex direction="column" gap="4">
           <Badge size="3" color="green" variant="soft">
-            Accomplished ({task.filter(t => t.status === 'done').length})
+            Accomplished ({task.filter(t => t.status === 'Done').length})
           </Badge>
           {task
-            .filter(t => t.status === 'done')
+            .filter(t => t.status === 'Done')
             .map(tasks =>
-              tasks.status === 'done' ? (
+              tasks.status === 'Done' ? (
                 <TaskCard tasks={tasks} key={tasks.id} />
               ) : (
                 ''

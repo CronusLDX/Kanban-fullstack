@@ -7,7 +7,7 @@ import {
 } from 'react';
 import { z } from 'zod';
 import { TaskContext, TaskInfo } from '../interfaces/interface';
-import { api, deleteMethod, postMethod } from '../services/api';
+import { api, deleteMethod, postMethod, putMethod } from '../services/api';
 import axios from 'axios';
 
 export const TaskCreateContext = createContext<TaskContext | null>(null);
@@ -18,8 +18,8 @@ const taskSchema = z.object({
   description: z
     .string()
     .min(5, 'The description has to have at least 5 letters.'),
-  status: z.enum(['todo', 'doing', 'done']),
-  priority: z.enum(['low', 'medium', 'high']),
+  status: z.enum(['Todo', 'Doing', 'Done']),
+  priority: z.enum(['Low', 'Medium', 'High']),
 });
 
 export const TaskProvider: React.FC<{ children: ReactNode }> = ({
@@ -48,7 +48,7 @@ export const TaskProvider: React.FC<{ children: ReactNode }> = ({
 
   if (error) return <div className="error-message">{errorMessage}</div>;
 
-  const deleteTask = async (taskId: number) => {
+  const deleteTask = async (taskId: string) => {
     try {
       await deleteMethod(taskId);
       setTask(prevTasks => prevTasks.filter(task => task.id !== taskId));
@@ -74,22 +74,36 @@ export const TaskProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
-  const updateTask = (taskId: number): void => {
-    setTask(prevTask =>
-      prevTask.map(task =>
-        task.id === taskId
-          ? {
-              ...task,
-              status:
-                task.status === 'todo'
-                  ? 'doing'
-                  : task.status === 'doing'
-                  ? 'done'
-                  : 'done',
+  const updateTask = async (taskId: string) => {
+    try {
+      const allTasks = await Promise.all(
+        task.map(async task => {
+          if (task.id === taskId) {
+            let updateStatus = task.status;
+            if (task.status === 'Todo') {
+              updateStatus = 'Doing';
+            } else if (task.status === 'Doing') {
+              updateStatus = 'Done';
+            } else {
+              updateStatus = 'Done';
             }
-          : task
-      )
-    );
+
+            const updatedTask = {
+              ...task,
+              status: updateStatus,
+            };
+
+            await putMethod(task.id, updatedTask);
+            return updatedTask;
+          }
+          return task;
+        })
+      );
+
+      setTask(allTasks);
+    } catch (error) {
+      console.error("Wasn't possible to update task's status", error);
+    }
   };
 
   return (

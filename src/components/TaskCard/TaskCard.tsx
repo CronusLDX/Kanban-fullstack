@@ -7,17 +7,17 @@ const TaskCard: React.FC<{ tasks: TaskInfo }> = ({ tasks }) => {
 
   const getPriorityColor = (priority: string) => {
     const priorityColors: { [key: string]: 'blue' | 'yellow' | 'tomato' } = {
-      low: 'blue',
-      medium: 'yellow',
-      high: 'tomato',
+      Low: 'blue',
+      Medium: 'yellow',
+      High: 'tomato',
     };
     return priorityColors[priority];
   };
 
   const getActionTextsColors = (status: string) => {
     const actionTextsColors: { [key: string]: 'blue' | 'yellow' } = {
-      todo: 'blue',
-      doing: 'yellow',
+      Todo: 'blue',
+      Doing: 'yellow',
     };
 
     return actionTextsColors[status];
@@ -25,9 +25,9 @@ const TaskCard: React.FC<{ tasks: TaskInfo }> = ({ tasks }) => {
 
   const getActionTexts = (text: TaskStatus) => {
     const actionTexts = {
-      todo: 'Begin',
-      doing: 'Conclude',
-      done: '',
+      Todo: 'Begin',
+      Doing: 'Conclude',
+      Done: '',
     };
     return actionTexts[text];
   };
@@ -61,7 +61,7 @@ const TaskCard: React.FC<{ tasks: TaskInfo }> = ({ tasks }) => {
           {tasks.description}
         </Text>
         <Flex gap="2">
-          {tasks.status !== 'done' && (
+          {tasks.status !== 'Done' && (
             <Button
               variant="soft"
               color={getActionTextsColors(tasks.status)}

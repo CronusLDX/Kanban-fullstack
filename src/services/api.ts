@@ -18,7 +18,21 @@ export const postMethod = async (
   }
 };
 
-export const deleteMethod = async (id: number): Promise<void> => {
+export const putMethod = async (
+  taskId: string,
+  updatedTask: TaskInfo
+): Promise<void> => {
+  try {
+    await api.put(`/tasks/${taskId}`, updatedTask);
+  } catch (error) {
+    console.error(
+      `Wasn't possible to update the task's status for taskId: ${taskId} with status: ${status}`,
+      error
+    );
+  }
+};
+
+export const deleteMethod = async (id: string): Promise<void> => {
   try {
     await api.delete(`/tasks/${id}`);
   } catch (error) {

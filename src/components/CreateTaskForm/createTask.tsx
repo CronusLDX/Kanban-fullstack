@@ -20,8 +20,8 @@ export const CreateTask: React.FC = () => {
   const [formData, setForm] = useState<TaskInfo>({
     title: '',
     description: '',
-    status: 'todo',
-    priority: 'low',
+    status: 'Todo',
+    priority: 'Low',
   });
 
   const handleChange = (
@@ -49,8 +49,8 @@ export const CreateTask: React.FC = () => {
     setForm({
       title: '',
       description: '',
-      status: 'todo',
-      priority: 'low',
+      status: 'Todo',
+      priority: 'Low',
     });
   };
 
@@ -110,13 +110,13 @@ export const CreateTask: React.FC = () => {
                     onValueChange={value => handleRadioChange('status', value)}
                   >
                     <Flex direction="column" gap="2">
-                      <RadioGroup.Item value="todo">
+                      <RadioGroup.Item value="Todo">
                         <Badge color="blue">To Do</Badge>
                       </RadioGroup.Item>
-                      <RadioGroup.Item value="doing">
+                      <RadioGroup.Item value="Doing">
                         <Badge color="orange">Doing</Badge>
                       </RadioGroup.Item>
-                      <RadioGroup.Item value="done">
+                      <RadioGroup.Item value="Done">
                         <Badge color="green">Done</Badge>
                       </RadioGroup.Item>
                     </Flex>
@@ -132,13 +132,13 @@ export const CreateTask: React.FC = () => {
                     }
                   >
                     <Flex direction="column" gap="2">
-                      <RadioGroup.Item value="low">
+                      <RadioGroup.Item value="Low">
                         <Badge color="blue">Low</Badge>
                       </RadioGroup.Item>
-                      <RadioGroup.Item value="medium">
+                      <RadioGroup.Item value="Medium">
                         <Badge color="yellow">Medium</Badge>
                       </RadioGroup.Item>
-                      <RadioGroup.Item value="high">
+                      <RadioGroup.Item value="High">
                         <Badge color="tomato">High</Badge>
                       </RadioGroup.Item>
                     </Flex>

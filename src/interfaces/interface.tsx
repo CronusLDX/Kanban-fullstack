@@ -1,9 +1,9 @@
-export type TaskStatus = 'todo' | 'doing' | 'done';
+export type TaskStatus = 'Todo' | 'Doing' | 'Done';
 
-export type TaskPriority = 'low' | 'medium' | 'high';
+export type TaskPriority = 'Low' | 'Medium' | 'High';
 
 export interface TaskInfo {
-  id?: number | undefined;
+  id?: string;
   title: string;
   description: string;
   status: TaskStatus;
@@ -12,7 +12,7 @@ export interface TaskInfo {
 
 export interface TaskContext {
   task: TaskInfo[];
-  deleteTask: (taskId: number) => void;
-  updateTask: (taskId: number) => void;
+  deleteTask: (taskId: string) => void;
+  updateTask: (taskId: string) => void;
   createTask: (task: TaskInfo) => void;
 }
