@@ -7,6 +7,8 @@ import {
 } from 'react';
 import { z } from 'zod';
 import { TaskContext, TaskInfo } from '../interfaces/interface';
+import { api, deleteMethod, postMethod } from '../services/api';
+import axios from 'axios';
 
 export const TaskCreateContext = createContext<TaskContext | null>(null);
 
@@ -23,31 +25,53 @@ const taskSchema = z.object({
 export const TaskProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [task, setTask] = useState<TaskInfo[]>(() => {
-    const storagedItems = localStorage.getItem('taskItems');
-    return storagedItems ? JSON.parse(storagedItems) : [];
-  });
-  useEffect(() => {
-    localStorage.setItem('taskItems', JSON.stringify(task));
-  }, [task]);
+  const [task, setTask] = useState<TaskInfo[]>([]);
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const deleteTask = (taskId: number): void => {
-    setTask(prevTask => prevTask.filter(t => t.id !== taskId));
+  useEffect(() => {
+    const getTasks = async () => {
+      try {
+        const response = await api.get('/tasks');
+        setTask(response.data);
+      } catch (error) {
+        setError(true);
+        setErrorMessage('Error on getting the data');
+        console.error('Error:', error);
+        if (axios.isAxiosError(error)) {
+          console.error(error.response?.data);
+        }
+      }
+    };
+    getTasks();
+  }, []);
+
+  if (error) return <div className="error-message">{errorMessage}</div>;
+
+  const deleteTask = async (taskId: number) => {
+    try {
+      await deleteMethod(taskId);
+      setTask(prevTasks => prevTasks.filter(task => task.id !== taskId));
+    } catch (error) {
+      console.error(`Failed to delete task with ID ${taskId}:`, error);
+    }
   };
 
-  const createTask = (data: Omit<TaskInfo, 'id'>) => {
-    const newTask = {
-      ...data,
-      id: Date.now(),
-    };
-    const result = taskSchema.safeParse(newTask);
-
-    if (!result.success) {
-      console.error('Error:' + result.error.format());
+  const createTask = async (data: Omit<TaskInfo, 'id'>) => {
+    const validation = taskSchema.omit({ id: true }).safeParse(data);
+    if (!validation.success) {
+      console.error('Validation error:', validation.error.format());
+      return { error: validation.error.format() };
     }
 
-    setTask(prevTask => [...prevTask, newTask]);
-    console.log(newTask);
+    try {
+      const response = await postMethod(data);
+      setTask(prevTask => [...prevTask, response]);
+      return response;
+    } catch (error) {
+      console.error('Error creating task:', error);
+      return { error: 'Failed to create task. Please try again.' };
+    }
   };
 
   const updateTask = (taskId: number): void => {
